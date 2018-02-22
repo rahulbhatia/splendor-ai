@@ -1,6 +1,6 @@
 # Model for the Game's State Machine
-# 
-# 
+#
+#
 
 from model.player import SplendorPlayer
 from model.money import SplendorBank
@@ -12,11 +12,11 @@ class SplendorGame():
     """
     def __init__(self, players=4):
         self.bank = SplendorBank()
-        self.deck_low = SplendorDeck()
-        self.deck_mid = SplendorDeck()
-        self.deck_high = SplendorDeck()
+        self.deck_low = SplendorDeck(level="low")
+        self.deck_mid = SplendorDeck(level="mid")
+        self.deck_high = SplendorDeck(level="high")
         self.players = [SplendorPlayer(player) for player in range(players)]
-    
+
     def __repr__(self):
         summary = "SPLENDOR GAME SUMMARY\n\n" \
             f"Low: {self.deck_low}\n" \
@@ -27,11 +27,3 @@ class SplendorGame():
             summary += f"{player}\n"
 
         return summary
-        
-    
-    def options(self):
-        """
-        Return all options
-        """
-        pass
-    
