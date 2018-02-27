@@ -1,6 +1,9 @@
 from model.game import SplendorGame
 
 
-if __name__ == "__main__":
+def main():
     game = SplendorGame()
     print(game)
+
+if __name__ == "__main__":
+    main()

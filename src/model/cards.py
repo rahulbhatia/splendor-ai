@@ -1,5 +1,8 @@
 import pandas as pd
+
 from collections import namedtuple
+from random import shuffle
+
 
 CARDS = "src/static/cards.csv"
 LEVEL_MAP = {"low": "I", "mid": "II", "high": "III"}
@@ -16,24 +19,29 @@ class SplendorDeck():
         for i, row in cards.iterrows():
             self.cards.append(
                 SplendorCard(
-                    level = row.Level,
-                    cost = SplendorCost(
-                        red=row.Red,
-                        green=row.Green,
-                        blue=row.Blue,
-                        white=row.White,
-                        black=row.Black
+                    level= row.Level,
+                    cost=SplendorCost(
+                        red=int(row.Red),
+                        green=int(row.Green),
+                        blue=int(row.Blue),
+                        white=int(row.White),
+                        black=int(row.Black)
                     ),
-                    value = row.Value,
-                    color = row.Color
+                    value=int(row.Value),
+                    color=row.Color
                 )
             )
+        shuffle(self.cards)
+
 
     def __repr__(self):
-        return "deck"
+        return f"{self.level:4} Deck | Count: {len(self)}"
 
     def __len__(self):
         return len(self.cards)
+
+    def draw(self):
+        return self.cards.pop()
 
 class SplendorCard():
     """
@@ -45,7 +53,31 @@ class SplendorCard():
         self.value = value
         self.color = color
 
-SplendorCost = namedtuple("SplendorCost", ["red", "green", "blue", "white", "black"])
+    def __repr__(self):
+        return f"{self.color}(Value={self.value},{self.cost})"
+
+class SplendorCost():
+    def __init__(self, red, green, blue, white, black):
+        self.cost = {
+            "red": red,
+            "green": green,
+            "blue": blue,
+            "white": white,
+            "black": black
+        }
+        self.red = red
+        self.blue = blue
+        self.green = green
+        self.white = white
+        self.black = black
+
+    def __repr__(self):
+        string = "Cost("
+        string += ",".join(
+            [f"{color}={self.cost[color]}" for color in self.cost.keys()
+                if self.cost[color] > 0])
+        string += ")"
+        return string
 
 class SplendorMove():
     """
