@@ -1,8 +1,10 @@
 """
 
 """
-from model.game import SplendorGame
+
+
 from model.action import *
+from model.game import SplendorGame
 from model.player import SplendorPlayer
 from unittest import TestCase, skip
 

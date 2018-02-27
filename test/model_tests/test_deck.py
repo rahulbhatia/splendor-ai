@@ -16,6 +16,7 @@ class TestSplendorDeck(TestCase):
         """
         Do the decks start with the right amount of cards
         """
+
         deck = SplendorDeck(level="low")
         self.assertEquals(len(deck), 40)
 

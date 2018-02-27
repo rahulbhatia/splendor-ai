@@ -1,3 +1,7 @@
+"""
+Run the game
+"""
+
 from model.game import SplendorGame
 
 
