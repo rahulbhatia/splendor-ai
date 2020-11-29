@@ -1,6 +1,4 @@
-"""
-
-"""
+from .cards import SplendorCard, SplendorCost
 
 class SplendorBank():
     """
@@ -15,10 +13,12 @@ class SplendorBank():
     def __repr__(self):
         return " | ".join([str(stack) for stack in self.stacks.values()])
 
+    def increment(self, cost: SplendorCost):
+        for color in self.COLORS:
+            self.stacks[color].count += cost.cost[color.lower()]
+
 
 class SplendorStack():
-    """
-    """
     def __init__(self, color, count = 0):
         self.color = color
         self.count = count

@@ -41,7 +41,11 @@ class SplendorDeck():
         return len(self.cards)
 
     def draw(self):
-        return self.cards.pop()
+        if len(self) > 0:
+            return self.cards.pop()
+        else:
+            return None
+
 
 class SplendorCard():
     """
@@ -65,11 +69,6 @@ class SplendorCost():
             "white": white,
             "black": black
         }
-        self.red = red
-        self.blue = blue
-        self.green = green
-        self.white = white
-        self.black = black
 
     def __repr__(self):
         string = "Cost("

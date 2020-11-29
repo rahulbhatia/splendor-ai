@@ -1,7 +1,7 @@
 ## Splendor AI Project
 #### Purpose
-  - [ ] Model a "real-world" system
-  - [ ] Be able to create a complex state machine
+  - [x] Model a "real-world" system
+  - [x] Be able to create a complex state machine
   - [ ] Model interactions with that state machine in a simple to understand way
   - [ ] Build an ai solution that can make a decision on which move to play
   - [ ] Feature engineering on how to transform the game model into inputs to a statistical model
@@ -11,7 +11,7 @@
   - [ ] Model the Players as Banks, Cards, + Points
   - [ ] Model the Banks as dictionaries of Stacks (which are just unit counters)
   - [ ] Model the Table as face up set of cards
-  - [ ] Be able to generate a realistic looking deck for either l1,l2,l3 card types
+  - [x] Be able to generate a realistic looking deck for either l1,l2,l3 card types
 
 #### Part 2: Model State Change
   - [ ] Implement state change for each model type

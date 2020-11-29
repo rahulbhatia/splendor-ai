@@ -1,27 +1,11 @@
-"""
-SplendorActions
-"""
-import logging
-
 from copy import deepcopy
 from itertools import combinations
 
-logger = logging.getLogger(__name__)
-
-class SplendorAction():
-    def __init__(self):
-        pass
-
-    def transform(self, game_state):
-        """
-        Return a new Splendor Game with the state representing the new game
-        """
-        raise NotImplementedError("This is an abstract action")
-
+from .splendor_action import SplendorAction
 
 class GemAction(SplendorAction):
-    @classmethod
-    def possibilities(cls, game_state):
+    @staticmethod
+    def possibilities(game_state):
         combos_3 = combinations(game_state.bank.stacks.keys(), 3)
 
         def construct_action(color_tuple, bank):
@@ -31,21 +15,24 @@ class GemAction(SplendorAction):
             for item in color_tuple:
                 if bank.stacks[item].count > 0:
                     valid_colors.append(item)
-
+            # if len(valid_colors) == 0:
+            #     return None
             return GemAction(d_red=-1 if "RED" in valid_colors else 0,
                              d_blue=-1 if "BLUE" in valid_colors else 0,
                              d_green=-1 if "GREEN" in valid_colors else 0,
                              d_white=-1 if "WHITE" in valid_colors else 0,
                              d_black=-1 if "BLACK" in valid_colors else 0)
 
-        actions = set()
+        actions = list()
         for combo in combos_3:
-            actions.add(construct_action(combo, game_state.bank))
+            action = construct_action(combo, game_state.bank)
+            if action is not None:
+                actions.append(action)
 
         ## Construct the Actions for the Double Token Take
         for color, stack in game_state.bank.stacks.items():
             if stack.count > 3:
-                actions.add(GemAction(d_red=-2 if color == "RED" else 0,
+                actions.append(GemAction(d_red=-2 if color == "RED" else 0,
                                       d_blue=-2 if color == "BLUE" else 0,
                                       d_green=-2 if color == "GREEN" else 0,
                                       d_white=-2 if color == "WHITE" else 0,
@@ -80,17 +67,14 @@ class GemAction(SplendorAction):
             return False
         elif self.d_black != other.d_black:
             return False
-        else: return True
+        else:
+            return True
 
     def transform(self, game_state):
-        """
-        """
         updated_game = deepcopy(game_state)
-
         self._adjust_bank(updated_game.bank.stacks)
         self._adjust_player(updated_game.players[updated_game.current_player].bank.stacks)
         updated_game.current_player = (game_state.current_player + 1) % len(game_state.players)
-
         return updated_game
 
     def _adjust_bank(self, stacks):
@@ -108,9 +92,3 @@ class GemAction(SplendorAction):
         stacks['BLUE'].count -= self.d_blue
         stacks['WHITE'].count -= self.d_white
         stacks['BLACK'].count -= self.d_black
-
-class PurchaseAction(SplendorAction):
-    def transform(self, game_state):
-        """
-        """
-        raise NotImplementedError
